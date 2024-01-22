@@ -13,7 +13,7 @@ public class GameOfLife {
 		//// (Run one test at a time).
 		//// test1(fileName);
 		//// test2(fileName);
-		 test3(fileName, 3);
+		//// test3(fileName, 3);
 		//// play(fileName);
 	}
 	
@@ -27,8 +27,22 @@ public class GameOfLife {
 	// the count and cellValue functions.
 	private static void test2(String fileName) {
 		int[][] board = read(fileName);
-		//// Write here code that tests that the count and cellValue functions
-		//// are working properly, and returning the correct values.
+		for (int i = 1; i < board.length -1; i++)
+		{
+			for(int j = 1; j < board[0].length -1; j++)
+			{
+				System.out.printf("%3s", cellValue(board, i, j));
+			}
+			System.out.println();
+		}
+		for (int i = 1; i < board.length -1; i++)
+		{
+			for (int j = 1; j < board[0].length - 1; j++)
+			{
+				System.out.printf("%3s", count(board, i, j)); 
+			}
+			System.out.println();
+		}
 	}
 		
 	// Reads the data file, plays the game for Ngen generations, 
@@ -68,34 +82,25 @@ public class GameOfLife {
 		int rows = Integer.parseInt(in.readLine());
 		int cols = Integer.parseInt(in.readLine());
 		int[][] board = new int[rows + 2][cols + 2];
-		String line;
-		char c = ' ';
-		for (int i = 1; i < board.length; i++)
-		{
-			line = in.readLine();
-			if((line != null) && (!line.isEmpty()))
-			{
-				for (int j = 1; j < board[1].length; j++)
-				{
-					if ((i -1) < line.length())
-					{
-						c = line.charAt(i-1);
-						if (c == 'x') 
-						{
-			 		    	board[i][j] = 1;
-						}
-						//if (c == '.')
-						else
-						{
-							board[i][j] = 0;
-						}
-					}			
-				}	     		
-			}
-			board[i][1] = 0;
-			board[i][board[1].length-2] = 0;
-		}
 
+		for (int i = 1; i <= rows; i++)
+		{
+			String st = in.readLine();
+			if (st != null )
+			{
+				for (int j = 1; j <= st.length(); j++)
+				{
+					if (st.charAt(j - 1) == 'x')
+					{
+						board[i][j] = 1;
+					} 
+					else
+					{
+						board[i][j] = 0;
+					} 
+				}
+			}
+		}
 		return board;
 	}
 	
@@ -127,18 +132,19 @@ public class GameOfLife {
 	public static int cellValue(int[][] board, int i, int j) 
 	{
 		int neighb = count(board, i, j);
-		if (board[i][j] == 1)
+		if (board[i][j] == 1 && (neighb < 2))
 		{
-			if (neighb == 2 || neighb == 3)
-			{
-				return 1;
-			}
-			else
-			{
-				return 0;
-			}
+			return 0;
 		}
-		if ((board[i][j] == 0) && (neighb == 3))
+		else if (board[i][j] == 1 && (neighb == 2 || neighb == 3))
+		{
+			return 1;
+		}
+		else if (board[i][j] == 1 && neighb > 3)
+		{
+			return 0;
+		}
+		if (board[i][j] == 0 && neighb == 3)
 		{
 			return 1;
 		}
