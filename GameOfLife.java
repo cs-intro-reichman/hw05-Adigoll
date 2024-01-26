@@ -75,6 +75,11 @@ public class GameOfLife {
 		for (int i = 1; i < board.length-1; i++) 
 		{
 			String string = in.readLine(); 
+			/*
+			this is good, but better to go on the straight way 
+			if (string.isEmpty()) break;
+			*/
+			
 			if (!string.isEmpty()) 
 			{
 			for (int j = 1; j <= string.length(); j++)
